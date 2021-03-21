@@ -15,15 +15,14 @@ function saveUser(req, res){
     var params = req.body;
     var user = new User();
     if( params.username && params.email && params.password){
-       
-        User.findOne({ email: params.email, username: params.username}).exec((err,userFind)=>{
-            if(err) return res.status(500).send({message: 'Error en la peticio'});
+        User.findOne({ email: params.email.toLowerCase(), username: params.username}).exec((err,userFind)=>{
+            if(err) return res.status(500).send({message: 'Error en la peticion'});
             if(userFind){
                 res.status(404).send({message: 'el usuario ya existe', existe: true});
             }else{
                 user.create_at = new Date();
                 user.username = params.username;
-                user.email = params.mail;
+                user.email = params.email.toLowerCase();
                 user.role = 'ROLE_USER';
                 var salt = bcrypt.genSaltSync();
                 var hash = bcrypt.hashSync(params.password, salt)
@@ -35,10 +34,7 @@ function saveUser(req, res){
                             res.status(200).send( {user: userStored})
                         }else{
                             res.status(404).save ({message:'No se ha registrado el usuario'})
-                        }
-                    
-                 
-                
+                        }                
                 });
             }
         });
