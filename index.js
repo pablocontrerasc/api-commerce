@@ -15,5 +15,5 @@ mongoose.connect('mongodb+srv://api-ecommerce:api-ecommerce@api-ecommerce-backen
 }).catch(err => console.log(err));
 
 app.get('/', (req, res)=>{
-    res.send("la api esta funcionando")
+    res.send("Bienvenido al API ECOMMERCE")
 })
